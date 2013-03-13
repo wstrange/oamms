@@ -28,11 +28,10 @@ main() {
         print("Validated token OK $s");
       }));
 
-
-      // try a bogus token - it should fail
-      var token2 = new Token.fromBase64( "${token.encodedTokenValue}JUNK");
-      oic.validateToken(token2).then( guardAsync(() {
-        fail("Token should not be valid");
+      // try to validate a bad token
+      token.encodedTokenValue = "BOGUSVALUE";
+      oic.validateToken(token).then( protectAsync1((e) {
+        fail('should not be reached');
       }),
       onError:expectAsync1((e) {
         print('Got expected validation error. Error = $e');

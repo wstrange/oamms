@@ -15,6 +15,9 @@ class Token {
   List<int> _signature;
 
   String get encodedTokenValue => _base64Value;
+  // the only place we need this right now is in testing - to set a
+  // bogus token value.
+  void set encodedTokenValue(String v) { _base64Value = v;}
 
   /**
    * Create a token from a base 64 encoded value

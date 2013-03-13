@@ -85,7 +85,7 @@ class OICClient {
 
     HttpRequest.getString(url).then( (e) {
       c.complete(e);
-    } , onError: (AsyncError e) {
+    }).catchError((AsyncError e) {
       var error = e.error;
       var t = error.currentTarget.responseText;
       print('got a validation error $t');

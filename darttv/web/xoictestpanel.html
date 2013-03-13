@@ -11,6 +11,11 @@
       <template>
         <div>
           <p class="text-center">OIC Test</p>
+    <br/>
+
+    Username: <input  type="text" bind-value="userName" />
+    Password: <input  type="text" bind-value="password"  />
+
           <br/>
           <button type="submit" class="btn" on-click="send()">Send Request</button>
           <button type="submit" class="btn" on-click="clear()">Clear</button>
@@ -19,7 +24,6 @@
       </template>
 
     <script type="application/dart" src="xoictestpanel.dart"></script>
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
-    <script src="packages/browser/dart.js"></script>
+   </element>
   </body>
 </html>
