@@ -1,0 +1,8 @@
+packages/
+packages
+pubspec.lock
+.project
+tags/
+output/
+out/
+.buildlog
