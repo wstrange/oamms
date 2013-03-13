@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dart TV</title>
+    <style>template { display: none; }</style>
+    <link rel="stylesheet" href="darttv.css">
+
+
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+
+    <!-- import the click-counter -->
+    <link rel="components" href="xadminpanel.html">
+    <link rel="components" href="xoictestpanel.html">
+
+     <link rel="components" href="xtvpanel.html">
+
+    <link rel="components" href="packages/widget/components/tabs.html">
+  </head>
+  <body>
+
+    <!--
+      <p>Connection {{oic.serviceUrl}}</p>
+      -->
+       <div class="demo">
+          <x-tabs>
+            <li class="active">
+              <a href="#adminpanel" data-toggle="tab">Admin</a>
+            </li>
+            <li>
+              <a href="#oictestpanel" data-toggle="tab">OIC Test</a>
+            </li>
+            <li>
+              <a href="#tvpanel" data-toggle="tab">TV</a>
+            </li>
+            <x-admin-panel id="adminpanel" class="active" oic={{oic}}></x-admin-panel>
+            <x-oic-test-panel id="oictestpanel"></x-oic-test-panel>
+            <x-tv-panel id="tvpanel"></x-tv-panel>
+         </x-tabs>
+        </div>
+
+    <script type="application/dart" src="darttv.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

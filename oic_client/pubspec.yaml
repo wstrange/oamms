@@ -1,0 +1,9 @@
+name: oic_client
+description: A sample command-line application
+dependencies:
+  base64:
+    path: '../../base64'
+  browser: any
+
+#dependencies:
+#  unittest: any

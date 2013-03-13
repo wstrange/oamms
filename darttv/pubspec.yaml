@@ -1,0 +1,9 @@
+name: darttv
+description: A sample WebUI application
+dependencies:
+  oic_client:
+    path: '../oic_client'
+  js: any
+  browser: any
+  web_ui: any
+  widget: any

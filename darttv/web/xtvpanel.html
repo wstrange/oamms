@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>xtvpanel</title>
+  </head>
+
+  <body>
+
+    <element name="x-tv-panel" constructor="TVPanel" extends="div">
+      <template>
+        <div>
+          <p class="text-center">TV Panel</p>
+          <br/>
+
+<div class="embed-container">
+<video controls>
+<!--
+   <source src="http://bennugd-vlc.googlecode.com/files/big_buck_bunny_480p.ogv" type="video/ogg"/>
+
+
+     -->
+         <source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm"/>
+     <source src="http://mirrorblender.top-ix.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_stereo.ogg" type="video/ogg"/>
+  Your browser does not support the video tag.
+</video>
+
+
+</div>
+
+          <button type="submit" class="btn" >FF</button>
+          <button type="submit" class="btn" >Rew</button>
+        </div>
+      </template>
+
+    <script type="application/dart" src="xtvpanel.dart"></script>
+    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

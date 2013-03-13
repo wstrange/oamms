@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>xoictestpanel</title>
+  </head>
+
+  <body>
+
+     <element name="x-oic-test-panel" constructor="OICTestPanel" extends="div">
+      <template>
+        <div>
+          <p class="text-center">OIC Test</p>
+          <br/>
+          <button type="submit" class="btn" on-click="send()">Send Request</button>
+          <button type="submit" class="btn" on-click="clear()">Clear</button>
+
+        </div>
+      </template>
+
+    <script type="application/dart" src="xoictestpanel.dart"></script>
+    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>
