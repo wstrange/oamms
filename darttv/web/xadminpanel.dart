@@ -1,26 +1,25 @@
 import 'package:web_ui/web_ui.dart';
 
 import 'package:oic_client/oic.dart';
+import 'package:darttv/app.dart';
 
 /**
  * Widget for Admin Panel settings
  */
 class AdminPanel extends WebComponent {
 
-  OICClient oic;
-
-  String serverUrl = "http://localhost:14100/oic_oic";
+  String serverUrl = "http://demo.oracleads.com:14100/";
   String serviceDomain = "MobileServiceDomain";
 
 
   void updateSettings() {
-    oic.serviceUrl = serverUrl;
-    oic.serviceDomain = serviceDomain;
+    oicClient.serviceUrl = serverUrl;
+    oicClient.serviceDomain = serviceDomain;
   }
 
   void reset() {
-    serverUrl = oic.serviceUrl;
-    serviceDomain = oic.serviceDomain;
+    serverUrl = oicClient.serviceUrl;
+    serviceDomain = oicClient.serviceDomain;
   }
 }
 

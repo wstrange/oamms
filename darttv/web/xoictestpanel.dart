@@ -1,5 +1,6 @@
 import 'package:web_ui/web_ui.dart';
 import 'package:oic_client/oic.dart';
+import 'package:darttv/app.dart';
 
 class OICTestPanel extends WebComponent {
 
@@ -13,7 +14,13 @@ class OICTestPanel extends WebComponent {
 
 
   void send() {
-    print('send token');
+    print('request token');
+
+    oicClient.userTokenRequest(userName,password).then( (Token t) {
+      print('Got token $t');
+    }).catchError( (e) {
+      print("got an error $e");
+    });
   }
 
   void clear() {}
