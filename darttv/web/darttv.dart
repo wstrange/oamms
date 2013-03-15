@@ -7,5 +7,8 @@ import 'package:darttv/app.dart';
 // Learn about the Web UI package by visiting
 // http://www.dartlang.org/articles/dart-web-components/
 void main() {
+
+  User.createDemoUsers();
+  User.setCurrentUser("family");
   //useShadowDom = true; // to enable use of experimental Shadow DOM in the browser
 }

@@ -5,7 +5,7 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:json' as json;
 
-import 'package:base64/base64.dart';
+import 'package:base64/base64.dart'; // needed by Token. todo: make token a lib
 
 part 'token.dart';
 
@@ -19,7 +19,7 @@ class OICClient {
   // Service Domain.Defaults to MobileServiceDomain
   String serviceDomain = "MobileServiceDomain";
 
-  Base64 codec = new Base64.defaultCodec();
+  //Base64 codec = new Base64.defaultCodec();
 
 
   static final _OIC_ENDPOINT = '/oic_rest/rest';
@@ -51,54 +51,75 @@ class OICClient {
     var req = new HttpRequest();
     req.open('POST',url);
     req.setRequestHeader("Content-Type", "application/json");
+    req.setRequestHeader("X-IDAAS-SERVICEDOMAIN", serviceDomain);
 
     req.onLoadEnd.listen((event) {
       if (req.status != 200) {
+        print("Auth error ${req.responseText}");
         c.completeError("Authentication error. Status ${req.status} ${req.responseText}");
       } else {
         //print("response text = ${req.responseText}");
-        var pj = json.parse(req.responseText);
-        var t = pj['X-Idaas-Rest-Token-Value'];
-        var token = new Token.fromBase64(t);
-        c.complete(token);
+        c.complete(_parseResponse(req.responseText));
       }
     });
 
     req.send(reqString);
     return c.future;
   }
-    /**
-     * Validate a JWT token [t] that we got from the server before
-     *
-     * If the token is valid the Completer will return with
-     * the JWT token response from OAM (as a json triplet
-     * string). If not valid the Future error method will be called.
-     */
 
-  Future<String> validateToken(Token t) {
+  Token _parseResponse(String r) {
+    var pj = json.parse(r);
+    var t = pj['X-Idaas-Rest-Token-Value'];
+    return new Token.fromBase64(t);
+  }
 
-    Completer c = new Completer<String>();
+  /**
+   * Validate a JWT token [t] that we got from the server before
+   *
+   * If the token is valid the Completer will return with
+   * the JWT token response from OAM (as a json triplet
+   * string). If not valid the Future error method will be called.
+   */
+
+  Future<Token> validateToken(Token t) {
+
+    Completer c = new Completer<Token>();
     var tv = 'X-Idaas-Rest-Subject-Value=${t.encodedTokenValue}';
     var ttype = 'X-Idaas-Rest-Subject-Type=TOKEN';
     var url = '$oicEndpoint/jwtauthentication/validate?$tv&${ttype}';
 
 
-    HttpRequest.getString(url).then( (e) {
-      c.complete(e);
-    }).catchError((AsyncError e) {
-      var error = e.error;
-      var t = error.currentTarget.responseText;
-      print('got a validation error $t');
-      c.completeError(t);
+    var req = new HttpRequest();
+
+    //req.setRequestHeader("Content-Type", "application/json");
+
+    req.open('GET',url);
+    req.setRequestHeader("X-IDAAS-SERVICEDOMAIN", serviceDomain);
+
+
+    req.onReadyStateChange.listen((e) {
+        //print("event is ${req.readyState} req= ${req.responseText}");
+        if( req.readyState == HttpRequest.DONE ) {
+            if(req.status == 200 || req.status == 0) {
+              c.complete(_parseResponse(req.responseText));
+            }
+        else {
+          c.completeError("Error ${req.status} ${req.responseText}");
+        }
+      }
+    },
+    onError: (AsyncError e) {
+      c.completeError("Error ${e.error}");
     });
+    req.send();
     return c.future;
   }
 
   /**
    * TODO
    */
-  Future<String> validateTokenAndPIN(Token t, String pin) {
-    var c = new Completer<String>();
+  Future<Token> validateTokenAndPIN(Token t, String pin) {
+    var c = new Completer<Token>();
     c.complete("OK");
 
     return c;

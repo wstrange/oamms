@@ -3,38 +3,75 @@
 <html>
   <head>
     <title>xtvpanel</title>
+    <link rel="components" href="packages/widget/components/modal.html">
+    <link rel="components" href="packages/widget/components/dropdown.html">
+    <link rel="components" href="packages/widget/components/alert.html">
+
   </head>
 
   <body>
-
     <element name="x-tv-panel" constructor="TVPanel" extends="div">
       <template>
         <div>
-          <p class="text-center">TV Panel</p>
-          <br/>
 
-<div class="embed-container">
-<video controls>
-<!--
-   <source src="http://bennugd-vlc.googlecode.com/files/big_buck_bunny_480p.ogv" type="video/ogg"/>
+          <div>User: <strong>{{User.currentUser.login}}</strong>
 
+              <a role="button" class="btn btn-primary" on-click="query('#login_modal').xtag.show();">Change User</a>
+            </div>
 
-     -->
-         <source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm"/>
-     <source src="http://mirrorblender.top-ix.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_stereo.ogg" type="video/ogg"/>
-  Your browser does not support the video tag.
-</video>
-
-
-</div>
-
-          <button type="submit" class="btn" >FF</button>
-          <button type="submit" class="btn" >Rew</button>
+      <!-- Define the popup modal login box -->
+      <x-modal id="login_modal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+          <h3>Login to MyTV</h3>
         </div>
-      </template>
+
+        <div class="modal-body">
+          <form>
+            <label>Select Family Member:</label>
+            <select template class="text-right" on-change="loginSelectUser($event)" iterate="x in User.registeredUsers">
+                      <option>{{x}}</option>
+            </select>
+
+            <label>Please Enter PIN for user {{selectedUser}}</label>
+
+            <input type="password" bind-value="pin"/>
+          </form>
+          <template instantiate="if pinCheckFailed">
+            <x-alert>
+  <button type="button" class="close" data-dismiss="alert">X</button>
+  <strong>PIN not valid. </strong>Please try again
+          </x-alert>
+          </template>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button class="btn btn-primary" on-click="validatePIN()" >Login</button>
+        </div>
+      </x-modal>
+<br/>
+      <p>My Channels: {{User.currentUser.favoriteChannels}}</p>
+<br/>
+       <div class="embed-container">
+          <video controls>
+            <!--
+               <source src="http://bennugd-vlc.googlecode.com/files/big_buck_bunny_480p.ogv" type="video/ogg"/>
+
+             -->
+                 <source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm"/>
+             <source src="http://mirrorblender.top-ix.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_stereo.ogg" type="video/ogg"/>
+          Your browser does not support the video tag.
+          </video>
+      </div>
+
+        <button type="submit" class="btn" >FF</button>
+        <button type="submit" class="btn" >Rew</button>
+      </div>
+    </template>
 
     <script type="application/dart" src="xtvpanel.dart"></script>
     <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
     <script src="packages/browser/dart.js"></script>
+    </element>
   </body>
 </html>

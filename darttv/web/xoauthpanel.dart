@@ -3,7 +3,9 @@ import 'package:oic_client/oic.dart';
 import 'package:darttv/app.dart';
 import 'package:web_ui/watcher.dart' as watchers;
 
-class OICTestPanel extends WebComponent {
+import 'package:oauth2/oauth2.dart'
+
+class OAuthPanel extends WebComponent {
 
   String userName = "user0";
   String password = "Oracle123";

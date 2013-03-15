@@ -16,10 +16,12 @@
     <!-- import the click-counter -->
     <link rel="components" href="xadminpanel.html">
     <link rel="components" href="xoictestpanel.html">
+    <link rel="components" href="xoauthpanel.html">
 
-     <link rel="components" href="xtvpanel.html">
+    <link rel="components" href="xtvpanel.html">
 
     <link rel="components" href="packages/widget/components/tabs.html">
+    <link rel="components" href="packages/widget/components/modal.html">
   </head>
   <body>
 
@@ -37,9 +39,13 @@
             <li>
               <a href="#tvpanel" data-toggle="tab">TV</a>
             </li>
+            <li>
+              <a href="#oauthpanel" data-toggle="tab">OAuth2</a>
+            </li>
             <x-admin-panel id="adminpanel" class="active"></x-admin-panel>
             <x-oic-test-panel id="oictestpanel"></x-oic-test-panel>
             <x-tv-panel id="tvpanel"></x-tv-panel>
+            <x-oauth-panel id="oauthpanel"></x-oauth-panel>
          </x-tabs>
         </div>
 

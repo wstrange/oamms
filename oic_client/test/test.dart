@@ -9,8 +9,10 @@ import 'package:oic_client/oic.dart';
 
 main() {
 
-  var oam = "http://demo.oracleads.com:14100";
-  var domain = "Default";
+  //var oam = "http://demo.oracleads.com:14100";
+  var oam = "http://slc04jlj.us.oracle.com:14100";
+  //var domain = "Default";
+  var domain = "DemoDesktopDomain";
 
   //useInteractiveHtmlConfiguration();
 
@@ -20,7 +22,7 @@ main() {
 
     var oic = new OICClient(oam,domain);
 
-    oic.userTokenRequest("user0", "Oracle123").then( expectAsync1((Token token) {
+    oic.userTokenRequest("user.0", "Oracle123").then( expectAsync1((Token token) {
       print('Got token $token');
 
       // now we have the token lets  validate

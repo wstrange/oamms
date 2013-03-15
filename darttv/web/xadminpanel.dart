@@ -8,8 +8,11 @@ import 'package:darttv/app.dart';
  */
 class AdminPanel extends WebComponent {
 
-  String serverUrl = "http://demo.oracleads.com:14100/";
-  String serviceDomain = "MobileServiceDomain";
+  //String serverUrl = "http://demo.oracleads.com:14100/";
+  String serverUrl = "http://slc04jlj.us.oracle.com:14100/";
+  //String serviceDomain = "MobileServiceDomain";
+  String serviceDomain = "DemoDesktopDomain";
+
 
 
   void updateSettings() {
