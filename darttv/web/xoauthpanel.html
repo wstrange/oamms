@@ -9,12 +9,15 @@
      <element name="x-oauth-panel" constructor="OAuthPanel" extends="div">
       <template>
         <div>
-          <p class="text-center">OAuth Test</p>
+          <p class="text-center">OAuth Test - Google+ API</p>
         </div>
+        <button on-click="login()">Authorize / Login</button>
 
         <hr/>
-        <h1>Response</h1>
-        <p>{{tokenResponse}}</p>
+        <h1>Token</h1>
+        <p>{{requestToken}}</p>
+        <h1>API Response</h1>
+        <p>{{responseString}}</p>
 
       </template>
 
