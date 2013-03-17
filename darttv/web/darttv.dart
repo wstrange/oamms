@@ -9,6 +9,5 @@ import 'package:darttv/app.dart';
 void main() {
 
   User.createDemoUsers();
-  User.setCurrentUser("family");
   //useShadowDom = true; // to enable use of experimental Shadow DOM in the browser
 }

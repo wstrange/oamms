@@ -19,7 +19,6 @@ var kidChannels = ['Disney', 'Treehouse', 'PBS'];
 var other = ["CBC", 'CTV', 'ABC'];
 
 
-
 /**
  * Sample user class.
  *
@@ -27,17 +26,17 @@ var other = ["CBC", 'CTV', 'ABC'];
  */
 class User {
 
-
   String name;
   String login;
   bool isAdult;
   List<String> favoriteChannels = new List<String>();
 
   // The JWT Token issued by OAM for this user
-  Token jwtToken;
+  Token loginToken;
 
+  // Create a new demo user
   User(String n, [bool isAdult = true]) {
-    login = n;
+    login = '$n@example.com';
     name = _capitalize(n);
     if( isAdult )
       favoriteChannels.addAll(adultChannels);
@@ -46,30 +45,32 @@ class User {
     favoriteChannels.addAll(other);
   }
 
-
+  // "database" of all the users we know about
   static final userMap = new Map<String,User> ();
 
+  // built in users to create for demo
+  static final registeredUsers = ["family","mom", "dad", "sally", "johhny"];
 
-  // built in users
-  static final registeredUsers = ["family","mom", "dad", "sally", "frank"];
   static createDemoUsers() {
    registeredUsers.forEach(  (s) {
      var adult = (s == "mom" || s == "dad");
      var u = new User(s,adult);
      userMap[u.login] = u;
    });
+   currentUser = getUserByLogin("family@example.com");
   }
 
   String _capitalize(String s) => "${s.substring(0,1).toUpperCase()}${s.substring(1)}";
 
-  static User getUser(String name) => userMap[name];
+  // static methods for the user "database"
+  static User getUserByLogin(String login) => userMap[login];
+  static User getUserByName(String name) =>
+      userMap.values.firstMatching( (u) => (u.name == name));
 
-  static User currentUser = null;
 
-  // do whatever is needed to login user. They have authenticated at this point
-  static void setCurrentUser(String login) {
-    currentUser = getUser(login);
-  }
+  static User currentUser;
+
+  static Iterable<User> get allUsers => userMap.values;
 
 }
 
