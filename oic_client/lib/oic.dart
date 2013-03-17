@@ -19,9 +19,6 @@ class OICClient {
   // Service Domain.Defaults to MobileServiceDomain
   String serviceDomain = "MobileServiceDomain";
 
-  //Base64 codec = new Base64.defaultCodec();
-
-
   static final _OIC_ENDPOINT = '/oic_rest/rest';
 
 

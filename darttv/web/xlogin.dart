@@ -4,6 +4,7 @@ import 'package:darttv/app.dart';
 import 'package:web_ui/watcher.dart' as watchers;
 import 'dart:html';
 import 'dart:async';
+import 'package:oic_client/oic.dart';
 
 /*
  * Implements the Login popup widget.
@@ -38,9 +39,25 @@ class LoginPopup extends WebComponent {
   }
 
   // true if we should collect and validate a PIN
-  bool get collectPIN => (selectedUser != null && selectedUser.loginToken == null );
+  bool get collectPIN => (selectedUser != null && selectedUser.loginToken != null );
   // true if we should collect and validate the password
-  bool get collectPassword => (selectedUser != null && selectedUser.loginToken == null);
+  bool get collectPassword {
+    if( selectedUser != null ) {
+      // todo: we need to see if the token has actually expired
+      // for now we assume it is OK
+      if( selectedUser.loginToken != null)
+        return false; // token is OK - no need for password
+
+      // see if token is saved for us
+      var b = window.localStorage[selectedUser.login];
+      if( b != null ) {
+        print('Found a saved token. Using that...');
+        selectedUser.loginToken = new Token.fromBase64(b);
+        return false;
+      }
+    }
+    return true; // need to check
+  }
 
   void checkPassword() {
     print("password = $password");
@@ -49,15 +66,33 @@ class LoginPopup extends WebComponent {
 
   void login() {
     print("login called");
-    if( collectPassword )
+    if( collectPassword ) {
       _validatePassword();
-    if( collectPIN )
-      _validatePIN();
+    }
+    else
+      if( collectPIN )
+        _validatePIN();
   }
 
   void _validatePassword() {
+    var u = selectedUser; // save in case it gets changed for some reason
     print("validate password");
-
+    oicClient.userTokenRequest(selectedUser.login,password).then( (token) {
+      // token validated OK
+      print("OAM Token is $token ");
+      u.loginToken = token;
+      User.currentUser = u;
+      print("Saving token for user ${u.login} ");
+      window.localStorage[u.login] = token.encodedTokenValue;
+      reset();
+      watchers.dispatch();
+    }, onError: (e) {
+      print("Got validation error ${e.error}");
+      validationError = true;
+      validationMessage = e.error;
+      query('#login_popup').xtag.show();
+      watchers.dispatch();
+    });
   }
 
 
@@ -74,9 +109,9 @@ class LoginPopup extends WebComponent {
         query('#login_popup').xtag.show();
       }
       else {
-        validationError = false;
-        query('#login_popup').xtag.hide();
+        //query('#login_popup').xtag.hide();
         User.currentUser = selectedUser;
+        reset();
       }
       watchers.dispatch();
     });
@@ -101,8 +136,9 @@ class LoginPopup extends WebComponent {
   }
 
   // reset the form
-  cancel() {
+  reset() {
     print("do cancel");
+    query('#login_popup').xtag.hide();
     selectedUser = null;
     password = "";
     validationError = false;

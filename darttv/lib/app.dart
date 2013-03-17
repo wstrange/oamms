@@ -11,8 +11,10 @@ library app;
 import 'package:oic_client/oic.dart';
 
 
-var oicClient = new OICClient("http://demo.oracleads.com:14100", "MobileServiceDomain");
+var oicClient = new OICClient("http://slc04jlj.us.oracle.com:14100/", "DemoDesktopDomain");
 
+
+//var oicClient = new OICClient("http://demo.oracleads.com:14100", "MobileServiceDomain");
 
 var adultChannels = ['Pay Per View', 'Golf Channel', 'ShowTime', 'HBO'];
 var kidChannels = ['Disney', 'Treehouse', 'PBS'];
@@ -62,13 +64,17 @@ class User {
 
   String _capitalize(String s) => "${s.substring(0,1).toUpperCase()}${s.substring(1)}";
 
+  String toString() => "User($login,$name)";
+
   // static methods for the user "database"
   static User getUserByLogin(String login) => userMap[login];
   static User getUserByName(String name) =>
       userMap.values.firstMatching( (u) => (u.name == name));
 
 
-  static User currentUser;
+  static User _currentUser;
+  static void set currentUser(User u) { print("Setting current user $u");_currentUser =u;}
+  static User get currentUser => _currentUser;
 
   static Iterable<User> get allUsers => userMap.values;
 

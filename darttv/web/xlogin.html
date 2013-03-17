@@ -44,14 +44,16 @@
                     <x-alert>
                       <button type="button" class="close" data-dismiss="alert">X</button>
                       <strong>Sorry that is not correct. </strong>Please try again
+                      <br/>
+                      {{validationMessage}}
                       </x-alert>
-                 </template>
+                </template>
 
               </template>
              </form>
         </div>
         <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true" on-click="cancel()">Cancel</button>
+          <button class="btn" data-dismiss="modal" aria-hidden="true" on-click="reset()">Cancel</button>
           <button class="btn btn-primary" on-click="login()" >Login</button>
         </div>
       </x-modal>
